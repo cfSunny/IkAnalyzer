@@ -1,19 +1,25 @@
 package com.pres.ik;
 
+import cn.pres.cf.SpringUtils;
+import lombok.SneakyThrows;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
+import org.wltea.analyzer.cfg.Configuration;
 import org.wltea.analyzer.core.IKSegmenter;
 import org.wltea.analyzer.core.Lexeme;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 /**
  * @author Dora
  * @date 2019/11/4 9:56
  **/
 public class IKTokenizer extends Tokenizer {
+
+
     // 词元文本属性
     private final CharTermAttribute termAtt;
     // 词元位移属性
@@ -29,12 +35,18 @@ public class IKTokenizer extends Tokenizer {
      * @param
      * @param useSmart
      */
+    @SneakyThrows
     public IKTokenizer(boolean useSmart) {
         super();
         offsetAtt = addAttribute(OffsetAttribute.class);
         termAtt = addAttribute(CharTermAttribute.class);
         typeAtt = addAttribute(TypeAttribute.class);
         _IKImplement = new IKSegmenter(input, useSmart);
+        Class<? extends IKSegmenter> aClass = _IKImplement.getClass();
+        Field cfg = aClass.getDeclaredField("cfg");
+        cfg.setAccessible(true);
+        Configuration bean = SpringUtils.getBean(Configuration.class);
+        cfg.set(_IKImplement, bean);
     }
 
     /*
@@ -67,11 +79,6 @@ public class IKTokenizer extends Tokenizer {
         return false;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.apache.lucene.analysis.Tokenizer#reset(java.io.Reader)
-     */
     @Override
     public void reset() throws IOException {
         super.reset();
@@ -80,7 +87,7 @@ public class IKTokenizer extends Tokenizer {
 
     @Override
     public final void end() {
-        // set final offset
+
         int finalOffset = correctOffset(this.endPosition);
         offsetAtt.setOffset(finalOffset, finalOffset);
     }

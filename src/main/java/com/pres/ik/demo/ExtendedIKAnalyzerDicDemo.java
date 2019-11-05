@@ -1,3 +1,5 @@
+package com.pres.ik.demo;
+
 import com.pres.ik.IKAnalyzer;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
@@ -7,9 +9,10 @@ import java.io.IOException;
 
 /**
  * @author Dora
- * @date 2019/11/4 10:04
+ * @date 2019/11/4 13:12
  **/
-public class IkTest {
+public class ExtendedIKAnalyzerDicDemo {
+
     private static void doToken(TokenStream ts) throws IOException {
         ts.reset();
         CharTermAttribute cta = ts.getAttribute(CharTermAttribute.class);
@@ -22,12 +25,7 @@ public class IkTest {
     }
 
     public static void main(String[] args) throws IOException {
-
-        String chineseText = "她张三说的确实在理。";
-        /**
-         * ikanalyzer 中文分词器 因为Analyzer的createComponents方法API改变了 需要我们自己实现
-         * 分析器IKAnalyzer4Lucene7和分词器IKTokenizer4Lucene7
-         */
+        String chineseText = "厉害了我的国一经播出，受到各方好评，强烈激发了国人的爱国之情、自豪感！";
         // IKAnalyzer 细粒度切分
         try (Analyzer ik = new IKAnalyzer();) {
             TokenStream ts = ik.tokenStream("content", chineseText);

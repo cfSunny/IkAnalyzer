@@ -1,0 +1,24 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.pres.ik.ExtProperties",
+      "name": "ik",
+      "type": "com.pres.ik.ExtProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.pres.ik.ExtProperties",
+      "name": "ik.ext",
+      "type": "java.lang.String",
+      "description": "扩展词典文件"
+    },
+    {
+      "sourceType": "com.pres.ik.ExtProperties",
+      "name": "ik.extStop",
+      "type": "java.lang.String",
+      "description": "扩展停止词典文件"
+    }
+  ]
+}
