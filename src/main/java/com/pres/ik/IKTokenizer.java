@@ -1,17 +1,14 @@
 package com.pres.ik;
 
-import cn.pres.cf.SpringUtils;
 import lombok.SneakyThrows;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
-import org.wltea.analyzer.cfg.Configuration;
 import org.wltea.analyzer.core.IKSegmenter;
 import org.wltea.analyzer.core.Lexeme;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 
 /**
  * @author Dora
@@ -42,11 +39,6 @@ public class IKTokenizer extends Tokenizer {
         termAtt = addAttribute(CharTermAttribute.class);
         typeAtt = addAttribute(TypeAttribute.class);
         _IKImplement = new IKSegmenter(input, useSmart);
-        Class<? extends IKSegmenter> aClass = _IKImplement.getClass();
-        Field cfg = aClass.getDeclaredField("cfg");
-        cfg.setAccessible(true);
-        Configuration bean = SpringUtils.getBean(Configuration.class);
-        cfg.set(_IKImplement, bean);
     }
 
     /*

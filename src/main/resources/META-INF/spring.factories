@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.pres.ik.InstantiationBeanProcessor
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=
